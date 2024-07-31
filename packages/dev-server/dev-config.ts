@@ -27,6 +27,7 @@ import { MultivendorPlugin } from './example-plugins/multivendor-plugin/multiven
  */
 export const devConfig: VendureConfig = {
     apiOptions: {
+        hostname: process.env.HOSTNAME || 'localhost',
         port: API_PORT,
         adminApiPath: ADMIN_API_PATH,
         adminApiPlayground: {
@@ -49,7 +50,7 @@ export const devConfig: VendureConfig = {
         requireVerification: true,
         customPermissions: [],
         cookieOptions: {
-            secret: 'abc',
+            secret: process.env.COOKIE_SECRET || 'dummy_cookie_secret',
         },
     },
     dbConnectionOptions: {
@@ -93,9 +94,9 @@ export const devConfig: VendureConfig = {
             templatePath: path.join(__dirname, '../email-plugin/templates'),
             outputPath: path.join(__dirname, 'test-emails'),
             globalTemplateVars: {
-                verifyEmailAddressUrl: 'http://localhost:4201/verify',
-                passwordResetUrl: 'http://localhost:4201/reset-password',
-                changeEmailAddressUrl: 'http://localhost:4201/change-email-address',
+                verifyEmailAddressUrl: `https://${process.env.STORE_FRONT_HOSTNAME || 'localhost'}:${process.env.STORE_FRONT_PORT}/verify`,
+                passwordResetUrl: `https://${process.env.STORE_FRONT_HOSTNAME || 'localhost'}:${process.env.STORE_FRONT_PORT}/reset-password`,
+                changeEmailAddressUrl: `https://${process.env.STORE_FRONT_HOSTNAME || 'localhost'}:${process.env.STORE_FRONT_PORT}/change-email-address`,
             },
         }),
         AdminUiPlugin.init({
